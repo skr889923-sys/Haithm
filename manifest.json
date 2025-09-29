@@ -1,0 +1,22 @@
+{
+  "name": "حاضر - نظام الحضور الذكي",
+  "short_name": "حاضر",
+  "description": "نظام إدارة الحضور الذكي للمدارس مع دعم العمل دون اتصال",
+  "start_url": "/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "theme_color": "#2563eb",
+  "background_color": "#ffffff",
+  "lang": "ar",
+  "dir": "rtl",
+  "scope": "/",
+  "icons": [
+    {
+      "src": "assets/img/icon-144.png",
+      "sizes": "144x144",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": ["education", "productivity", "utilities"]
+}

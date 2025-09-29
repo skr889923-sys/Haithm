@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>اختبار النظام - حاضر</title>
+    <link rel="stylesheet" href="assets/css/main.css">
+    <style>
+        .test-panel {
+            margin: 20px;
+            padding: 20px;
+            background: var(--bg-primary);
+            border-radius: 10px;
+            border: 1px solid var(--border-color);
+        }
+        .test-results {
+            margin-top: 20px;
+            padding: 15px;
+            background: var(--bg-secondary);
+            border-radius: 5px;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+        .test-log {
+            font-family: monospace;
+            font-size: 12px;
+            color: var(--text-secondary);
+        }
+        .success { color: var(--success-color); }
+        .error { color: var(--danger-color); }
+        .info { color: var(--info-color); }
+    </style>
+</head>
+<body class="theme-light">
+    <header class="top-bar">
+        <div class="school-info">
+            <h1>اختبار نظام حاضر</h1>
+            <span>Module M2 Testing</span>
+        </div>
+    </header>
+
+    <main class="main-content">
+        <div class="test-panel">
+            <h2>اختبارات الوحدة الثانية</h2>
+            <div class="actions">
+                <button class="btn btn-primary" id="testDatabaseBtn">اختبار قاعدة البيانات</button>
+                <button class="btn btn-primary" id="testAttendanceBtn">اختبار تسجيل الحضور</button>
+                <button class="btn btn-primary" id="testSoundsBtn">اختبار الأصوات</button>
+                <button class="btn btn-primary" id="testBarcodesBtn">اختبار الباركود</button>
+                <button class="btn btn-primary" id="testScannerBtn">اختبار الماسح الضوئي</button>
+                <button class="btn btn-secondary" id="clearLogBtn">مسح السجل</button>
+            </div>
+            
+            <div class="test-results" id="testResults">
+                <div class="test-log">مرحباً بكم في نظام اختبار حاضر...</div>
+            </div>
+        </div>
+
+        <div class="test-panel">
+            <h3>اختبار سريع للحضور</h3>
+            <div class="input-group">
+                <input type="text" id="quickTestId" placeholder="أدخل رقم طالب للاختبار (مثل: 1001)" class="form-input">
+                <button class="btn btn-primary" id="quickAttendanceBtn">تسجيل حضور</button>
+            </div>
+        </div>
+    </main>
+
+    <!-- Scripts -->
+    <script src="assets/js/db.js"></script>
+    <script src="assets/js/ui.js"></script>
+    <script src="assets/js/sounds.js"></script>
+    <script src="assets/js/barcode-generator.js"></script>
+    
+    <script>
+        class SystemTester {
+            constructor() {
+                this.logEl = document.getElementById('testResults');
+            }
+
+            log(message, type = 'info') {
+                const timestamp = new Date().toLocaleTimeString('ar-SA');
+                const logEntry = document.createElement('div');
+                logEntry.className = `test-log ${type}`;
+                logEntry.innerHTML = `[${timestamp}] ${message}`;
+                this.logEl.appendChild(logEntry);
+                this.logEl.scrollTop = this.logEl.scrollHeight;
+                console.log(`[Test ${type.toUpperCase()}] ${message}`);
+            }
+
+            async init() {
+                await new Promise(resolve => {
+                    if (window.db && window.db.isInitialized) {
+                        resolve();
+                    } else {
+                        window.addEventListener('hader:db:ready', resolve);
+                    }
+                });
+
+                this.setupEventListeners();
+                this.log('نظام الاختبار جاهز', 'success');
+            }
+
+            setupEventListeners() {
+                document.getElementById('testDatabaseBtn')?.addEventListener('click', () => this.testDatabase());
+                document.getElementById('testAttendanceBtn')?.addEventListener('click', () => this.testAttendance());
+                document.getElementById('testSoundsBtn')?.addEventListener('click', () => this.testSounds());
+                document.getElementById('testBarcodesBtn')?.addEventListener('click', () => this.testBarcodes());
+                document.getElementById('testScannerBtn')?.addEventListener('click', () => this.testScanner());
+                document.getElementById('clearLogBtn')?.addEventListener('click', () => this.clearLog());
+                document.getElementById('quickAttendanceBtn')?.addEventListener('click', () => this.quickAttendanceTest());
+            }
+
+            clearLog() {
+                this.logEl.innerHTML = '<div class="test-log">تم مسح السجل...</div>';
+            }
+
+            async testDatabase() {
+                this.log('بدء اختبار قاعدة البيانات...', 'info');
+                
+                try {
+                    // Test students retrieval
+                    const students = await window.db.getAllStudents();
+                    this.log(`تم العثور على ${students.length} طلاب`, 'success');
+                    
+                    // Test settings
+                    const settings = await window.db.getSettings();
+                    this.log(`الإعدادات: ${settings.schoolName} - ${settings.principalName}`, 'success');
+                    
+                    // Test statistics
+                    const stats = await window.db.getTodayStats();
+                    this.log(`إحصائيات اليوم: حاضر=${stats.presentCount}, متأخر=${stats.lateCount}, غائب=${stats.absentCount}`, 'success');
+                    
+                    this.log('اختبار قاعدة البيانات مكتمل', 'success');
+                    
+                } catch (error) {
+                    this.log(`فشل اختبار قاعدة البيانات: ${error.message}`, 'error');
+                }
+            }
+
+            async testAttendance() {
+                this.log('بدء اختبار تسجيل الحضور...', 'info');
+                
+                try {
+                    // Test with existing student
+                    const students = await window.db.getAllStudents();
+                    if (students.length === 0) {
+                        this.log('لا يوجد طلاب للاختبار', 'error');
+                        return;
+                    }
+                    
+                    const testStudent = students[0];
+                    this.log(`اختبار حضور الطالب: ${testStudent.name} (${testStudent.id})`, 'info');
+                    
+                    const result = await window.db.recordAttendance(testStudent.id);
+                    this.log(`نتيجة الحضور: ${result.record.status}, تأخر: ${result.record.lateMinutes} دقيقة`, 'success');
+                    
+                    if (result.isRepeat) {
+                        this.log('هذا تكرار لنفس اليوم', 'info');
+                    }
+                    
+                } catch (error) {
+                    this.log(`فشل اختبار الحضور: ${error.message}`, 'error');
+                }
+            }
+
+            async testSounds() {
+                this.log('بدء اختبار الأصوات...', 'info');
+                
+                try {
+                    if (!window.soundsManager) {
+                        this.log('مدير الأصوات غير متوفر', 'error');
+                        return;
+                    }
+                    
+                    const sounds = ['early', 'late', 'repeat', 'error'];
+                    
+                    for (const soundId of sounds) {
+                        this.log(`تشغيل صوت: ${soundId}`, 'info');
+                        await window.soundsManager.playSound(soundId);
+                        await new Promise(resolve => setTimeout(resolve, 500));
+                    }
+                    
+                    this.log('اختبار الأصوات مكتمل', 'success');
+                    
+                } catch (error) {
+                    this.log(`فشل اختبار الأصوات: ${error.message}`, 'error');
+                }
+            }
+
+            async testBarcodes() {
+                this.log('بدء اختبار مولد الباركود...', 'info');
+                
+                try {
+                    if (!window.barcodeGenerator) {
+                        this.log('مولد الباركود غير متوفر', 'error');
+                        return;
+                    }
+                    
+                    const students = await window.db.getAllStudents();
+                    if (students.length === 0) {
+                        this.log('لا يوجد طلاب لإنشاء باركود', 'error');
+                        return;
+                    }
+                    
+                    const testStudent = students[0];
+                    
+                    // Test QR generation
+                    const qrCode = window.barcodeGenerator.generateQRCode(`HADER:${testStudent.id}`, 100);
+                    this.log('تم إنشاء رمز QR بنجاح', 'success');
+                    
+                    // Test Code128 generation
+                    const barcode = window.barcodeGenerator.generateCode128(testStudent.id.padStart(8, '0'), 200, 50);
+                    this.log('تم إنشاء باركود Code128 بنجاح', 'success');
+                    
+                    // Test student card generation
+                    const studentCard = window.barcodeGenerator.generateStudentCard(testStudent);
+                    this.log('تم إنشاء بطاقة الطالب بنجاح', 'success');
+                    
+                    this.log('اختبار مولد الباركود مكتمل', 'success');
+                    
+                } catch (error) {
+                    this.log(`فشل اختبار الباركود: ${error.message}`, 'error');
+                }
+            }
+
+            async testScanner() {
+                this.log('بدء اختبار الماسح الضوئي...', 'info');
+                
+                try {
+                    if (!window.scanner) {
+                        this.log('ماسح الباركود غير متوفر', 'error');
+                        return;
+                    }
+                    
+                    // Check scanner support
+                    if (Scanner.isSupported()) {
+                        this.log('✓ الماسح الضوئي مدعوم', 'success');
+                    } else {
+                        this.log('✗ الماسح الضوئي غير مدعوم', 'error');
+                        return;
+                    }
+                    
+                    // Check available cameras
+                    const cameras = await Scanner.getAvailableCameras();
+                    this.log(`تم العثور على ${cameras.length} كاميرا`, 'info');
+                    
+                    cameras.forEach((camera, index) => {
+                        const label = camera.label || `كاميرا ${index + 1}`;
+                        this.log(`  - ${label}`, 'info');
+                    });
+                    
+                    if (cameras.length === 0) {
+                        this.log('لا توجد كاميرات متاحة', 'error');
+                        return;
+                    }
+                    
+                    // Test scanner initialization
+                    await window.scanner.init();
+                    this.log('تم تهيئة الماسح بنجاح', 'success');
+                    
+                    this.log('اختبار الماسح الضوئي مكتمل', 'success');
+                    this.log('يمكنك الآن اختبار المسح في scanner-test.html', 'info');
+                    
+                } catch (error) {
+                    this.log(`فشل اختبار الماسح: ${error.message}`, 'error');
+                }
+            }
+
+            async quickAttendanceTest() {
+                const studentId = document.getElementById('quickTestId')?.value.trim();
+                if (!studentId) {
+                    this.log('يرجى إدخال رقم الطالب', 'error');
+                    return;
+                }
+                
+                try {
+                    this.log(`اختبار سريع للطالب: ${studentId}`, 'info');
+                    const result = await window.db.recordAttendance(studentId);
+                    
+                    this.log(`✅ تم تسجيل الحضور بنجاح`, 'success');
+                    this.log(`الطالب: ${result.student.name}`, 'info');
+                    this.log(`الحالة: ${result.record.status}`, 'info');
+                    this.log(`الوقت: ${new Date(result.record.timeISO).toLocaleTimeString('ar-SA')}`, 'info');
+                    
+                    if (result.record.lateMinutes > 0) {
+                        this.log(`دقائق التأخر: ${result.record.lateMinutes}`, 'info');
+                    }
+                    
+                    // Play sound
+                    if (window.soundsManager) {
+                        const soundId = result.isRepeat ? 'repeat' : 
+                                       result.record.status === 'late' ? 'late' : 'early';
+                        await window.soundsManager.playSound(soundId);
+                    }
+                    
+                } catch (error) {
+                    this.log(`❌ فشل في تسجيل الحضور: ${error.message}`, 'error');
+                    if (window.soundsManager) {
+                        await window.soundsManager.playSound('error');
+                    }
+                }
+            }
+        }
+
+        // Initialize tester when ready
+        document.addEventListener('DOMContentLoaded', async () => {
+            const tester = new SystemTester();
+            await tester.init();
+            window.tester = tester;
+        });
+    </script>
+</body>
+</html>

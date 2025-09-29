@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>لوحة المشرف - نظام HeHo</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="assets/css/theme-modern.css">
+    <link rel="stylesheet" href="assets/css/components.css">
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#0f172a">
+</head>
+<body class="theme-light">
+    <!-- Header -->
+    <header class="header">
+        <div class="header-content">
+            <!-- Right side - User info -->
+            <div class="header-section">
+                <div class="notifications">
+                    <button class="notification-btn">
+                        <svg class="icon-sm" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-3.403-3.403c-.286-.286-.286-.754 0-1.04L19 10.172V6a3 3 0 00-3-3H8a3 3 0 00-3 3v4.172l2.403 2.385c.286.286.286.754 0 1.04L5 17h5m5 0v1a3 3 0 11-6 0v-1m6 0H9" />
+                        </svg>
+                        <span class="notification-badge">3</span>
+                    </button>
+                </div>
+                <div class="user-menu">
+                    <button class="user-button">
+                        <div class="avatar avatar-sm">
+                            <img src="assets/images/placeholder-user.svg" alt="المستخدم">
+                        </div>
+                        <span class="hidden-mobile">أحمد المشرف</span>
+                        <svg class="icon-sm" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Center - Search -->
+            <div class="header-search">
+                <div class="search-box">
+                    <svg class="search-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                    </svg>
+                    <input type="text" placeholder="بحث في الطلاب..." class="search-input">
+                </div>
+            </div>
+
+            <!-- Left side - Actions -->
+            <div class="header-section">
+                <div class="header-actions">
+                    <button class="theme-toggle" id="themeToggle" title="تبديل الثيم">
+                        <svg class="icon-sun" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
+                        </svg>
+                        <svg class="icon-moon hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+                        </svg>
+                    </button>
+                    <div class="connection-status">
+                        <div class="status-indicator status-online"></div>
+                        <span class="status-text hidden-mobile">متصل</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Sidebar -->
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <div class="logo">
+                <div class="logo-icon">H</div>
+                <span class="logo-text">HeHo</span>
+            </div>
+        </div>
+
+        <nav class="sidebar-nav">
+            <ul class="nav-list">
+                <li class="nav-item">
+                    <a href="#" class="nav-link active">
+                        <svg class="nav-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2H5a2 2 0 00-2-2V7a2 2 0 012-2h14a2 2 0 012 2v2" />
+                        </svg>
+                        <span class="nav-text">لوحة التحكم</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link">
+                        <svg class="nav-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197m13.5-9a2.5 2.5 0 11-5 0 2.5 2.5 0 015 0z" />
+                        </svg>
+                        <span class="nav-text">الطلاب</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link">
+                        <svg class="nav-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+                        </svg>
+                        <span class="nav-text">الفصول</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link">
+                        <svg class="nav-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4" />
+                        </svg>
+                        <span class="nav-text">الحضور</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link">
+                        <svg class="nav-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                        </svg>
+                        <span class="nav-text">التقارير</span>
+                    </a>
+                </li>
+            </ul>
+
+            <div class="nav-section">
+                <h3 class="nav-section-title">فرق العمل</h3>
+                <ul class="team-list">
+                    <li class="team-item">
+                        <div class="team-avatar">H</div>
+                        <span class="team-name">الهندسة</span>
+                    </li>
+                    <li class="team-item">
+                        <div class="team-avatar">ت</div>
+                        <span class="team-name">التسويق</span>
+                    </li>
+                    <li class="team-item">
+                        <div class="team-avatar">م</div>
+                        <span class="team-name">المبيعات</span>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+
+        <div class="sidebar-footer">
+            <a href="admin.html" class="nav-link">
+                <svg class="nav-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                </svg>
+                <span class="nav-text">الإعدادات</span>
+            </a>
+        </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Statistics Cards -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-icon stat-icon-success">
+                    <svg fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                    </svg>
+                </div>
+                <div class="stat-content">
+                    <div class="stat-value">245</div>
+                    <div class="stat-label">إجمالي الحضور</div>
+                </div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-icon stat-icon-error">
+                    <svg fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                </div>
+                <div class="stat-content">
+                    <div class="stat-value">12</div>
+                    <div class="stat-label">إجمالي الغياب</div>
+                </div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-icon stat-icon-warning">
+                    <svg fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                </div>
+                <div class="stat-content">
+                    <div class="stat-value">8</div>
+                    <div class="stat-label">إجمالي المتأخرين</div>
+                </div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-icon stat-icon-primary">
+                    <svg fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+                    </svg>
+                </div>
+                <div class="stat-content">
+                    <div class="stat-value">95.3%</div>
+                    <div class="stat-label">نسبة الحضور</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Quick Info Cards -->
+        <div class="quick-info-grid">
+            <div class="card card-sm">
+                <div class="card-body">
+                    <h3 class="card-title text-sm">أول حاضر اليوم</h3>
+                    <div class="student-quick-info">
+                        <div class="avatar avatar-sm">
+                            <img src="assets/images/placeholder-user.svg" alt="الطالب">
+                        </div>
+                        <div>
+                            <div class="student-name">أحمد محمد</div>
+                            <div class="student-time">07:45 ص</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card card-sm">
+                <div class="card-body">
+                    <h3 class="card-title text-sm">آخر حاضر اليوم</h3>
+                    <div class="student-quick-info">
+                        <div class="avatar avatar-sm">
+                            <img src="assets/images/placeholder-user.svg" alt="الطالب">
+                        </div>
+                        <div>
+                            <div class="student-name">فاطمة علي</div>
+                            <div class="student-time">08:30 ص</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Attendance Lists -->
+        <div class="card">
+            <div class="card-header">
+                <h2 class="card-title">قوائم الحضور اليومية</h2>
+                <div class="card-actions">
+                    <button class="btn btn-secondary btn-sm">
+                        <svg class="icon-sm" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z" />
+                        </svg>
+                        طباعة
+                    </button>
+                    <button class="btn btn-secondary btn-sm">
+                        <svg class="icon-sm" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                        </svg>
+                        تصدير CSV
+                    </button>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="tabs">
+                    <nav class="tab-nav">
+                        <button class="tab-btn active" data-tab="present">الحاضرون (245)</button>
+                        <button class="tab-btn" data-tab="late">المتأخرون (8)</button>
+                        <button class="tab-btn" data-tab="absent">الغائبون (12)</button>
+                    </nav>
+
+                    <div class="tab-content active" id="present">
+                        <div class="table-container">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>الرقم</th>
+                                        <th>الاسم</th>
+                                        <th>الفصل</th>
+                                        <th>وقت الحضور</th>
+                                        <th>الحالة</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>001</td>
+                                        <td>أحمد محمد علي</td>
+                                        <td>3/أ</td>
+                                        <td>07:45</td>
+                                        <td><span class="badge badge-success">حاضر</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td>002</td>
+                                        <td>فاطمة أحمد</td>
+                                        <td>3/ب</td>
+                                        <td>07:50</td>
+                                        <td><span class="badge badge-success">حاضر</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td>003</td>
+                                        <td>محمد سعد</td>
+                                        <td>3/أ</td>
+                                        <td>08:00</td>
+                                        <td><span class="badge badge-success">حاضر</span></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div class="tab-content" id="late">
+                        <div class="table-container">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>الرقم</th>
+                                        <th>الاسم</th>
+                                        <th>الفصل</th>
+                                        <th>وقت الحضور</th>
+                                        <th>دقائق التأخر</th>
+                                        <th>الحالة</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>015</td>
+                                        <td>سارة محمود</td>
+                                        <td>3/ج</td>
+                                        <td>08:15</td>
+                                        <td>15</td>
+                                        <td><span class="badge badge-warning">متأخر</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td>022</td>
+                                        <td>عمر حسن</td>
+                                        <td>3/د</td>
+                                        <td>08:25</td>
+                                        <td>25</td>
+                                        <td><span class="badge badge-warning">متأخر</span></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div class="tab-content" id="absent">
+                        <div class="table-container">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>الرقم</th>
+                                        <th>الاسم</th>
+                                        <th>الفصل</th>
+                                        <th>آخر حضور</th>
+                                        <th>الحالة</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>030</td>
+                                        <td>ليلى أحمد</td>
+                                        <td>3/هـ</td>
+                                        <td>أمس</td>
+                                        <td><span class="badge badge-error">غائب</span></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Toast Container -->
+    <div class="toast-container" id="toastContainer"></div>
+
+    <!-- Scripts -->
+    <script src="assets/js/theme-modern.js"></script>
+    <script src="assets/js/supervisor.js"></script>
+    <script>
+        // Initialize theme and components
+        document.addEventListener('DOMContentLoaded', function() {
+            window.themeController = new ModernThemeController();
+            
+            // Tab functionality
+            const tabBtns = document.querySelectorAll('.tab-btn');
+            const tabContents = document.querySelectorAll('.tab-content');
+            
+            tabBtns.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const targetTab = this.dataset.tab;
+                    
+                    // Remove active class from all tabs and contents
+                    tabBtns.forEach(b => b.classList.remove('active'));
+                    tabContents.forEach(c => c.classList.remove('active'));
+                    
+                    // Add active class to clicked tab and corresponding content
+                    this.classList.add('active');
+                    document.getElementById(targetTab).classList.add('active');
+                });
+            });
+        });
+    </script>
+</body>
+</html>

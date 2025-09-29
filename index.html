@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>حاضر - واجهة المشرف</title>
+    <link rel="stylesheet" href="assets/css/main.css">
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#2563eb">
+</head>
+<body class="theme-light">
+    <!-- Top Bar -->
+    <header class="top-bar">
+        <div class="school-info">
+            <h1 id="schoolName">مدرسة النموذجية</h1>
+            <span id="principalName">الأستاذ أحمد محمد</span>
+        </div>
+        <div class="status-indicators">
+            <div class="connection-status" id="connectionStatus">
+                <span class="status-dot online"></span>
+                <span class="status-text">متصل</span>
+            </div>
+            <button class="theme-toggle" id="themeToggle" title="تبديل النمط">🌙</button>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Dashboard Cards -->
+        <section class="dashboard-cards">
+            <div class="card counter-card present">
+                <div class="counter-icon">✅</div>
+                <div class="counter-info">
+                    <div class="counter-value" id="presentCount">0</div>
+                    <div class="counter-label">الحاضرين</div>
+                </div>
+            </div>
+            <div class="card counter-card absent">
+                <div class="counter-icon">❌</div>
+                <div class="counter-info">
+                    <div class="counter-value" id="absentCount">0</div>
+                    <div class="counter-label">الغائبين</div>
+                </div>
+            </div>
+            <div class="card counter-card late">
+                <div class="counter-icon">⏰</div>
+                <div class="counter-info">
+                    <div class="counter-value" id="lateCount">0</div>
+                    <div class="counter-label">المتأخرين</div>
+                </div>
+            </div>
+            <div class="card counter-card ratio">
+                <div class="counter-icon">📊</div>
+                <div class="counter-info">
+                    <div class="counter-value" id="attendanceRatio">0%</div>
+                    <div class="counter-label">نسبة الحضور</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- First/Last Student Info -->
+        <section class="student-highlights">
+            <div class="card highlight-card">
+                <h3>أول حاضر اليوم</h3>
+                <div id="firstStudent" class="student-info">لا يوجد</div>
+            </div>
+            <div class="card highlight-card">
+                <h3>آخر حاضر اليوم</h3>
+                <div id="lastStudent" class="student-info">لا يوجد</div>
+            </div>
+        </section>
+
+        <!-- Attendance Lists -->
+        <section class="attendance-section">
+            <div class="card attendance-card">
+                <div class="card-header">
+                    <div class="tabs" id="attendanceTabs">
+                        <button class="tab active" data-tab="present">الحاضرين</button>
+                        <button class="tab" data-tab="late">المتأخرين</button>
+                        <button class="tab" data-tab="absent">الغائبين</button>
+                    </div>
+                    <div class="actions">
+                        <input type="text" id="searchInput" placeholder="البحث..." class="search-input">
+                        <button class="btn btn-secondary" id="printBtn">طباعة</button>
+                        <button class="btn btn-secondary" id="exportBtn">تصدير CSV</button>
+                    </div>
+                </div>
+                
+                <div class="table-container">
+                    <table class="attendance-table" id="attendanceTable">
+                        <thead>
+                            <tr>
+                                <th>الرقم</th>
+                                <th>الاسم</th>
+                                <th>الصف</th>
+                                <th>الوقت</th>
+                                <th>الحالة</th>
+                                <th>دقائق التأخر</th>
+                            </tr>
+                        </thead>
+                        <tbody id="attendanceTableBody">
+                            <!-- Data will be populated here -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Navigation Buttons -->
+    <div class="nav-buttons">
+        <a href="student.html" class="btn btn-primary">🎓 واجهة الطلاب</a>
+        <a href="admin.html" class="btn btn-secondary">⚙️ لوحة الإدارة</a>
+    </div>
+
+    <!-- Scripts -->
+    <script src="assets/js/db.js"></script>
+    <script src="assets/js/ui.js"></script>
+    <script src="assets/js/admin_simple.js"></script>
+    
+    <!-- Service Worker Registration -->
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', async () => {
+                try {
+                    const registration = await navigator.serviceWorker.register('/service-worker.js');
+                    console.log('SW registered: ', registration);
+                } catch (registrationError) {
+                    console.log('SW registration failed: ', registrationError);
+                }
+            });
+        }
+    </script>
+</body>
+</html>

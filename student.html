@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>حاضر - واجهة الطلاب</title>
+    <link rel="stylesheet" href="assets/css/main.css">
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#2563eb">
+</head>
+<body class="theme-light">
+    <!-- Top Bar -->
+    <header class="top-bar">
+        <div class="school-info">
+            <h1 id="schoolName">مدرسة النموذجية</h1>
+            <span id="principalName">الأستاذ أحمد محمد</span>
+        </div>
+        <div class="status-indicators">
+            <div class="connection-status" id="connectionStatus">
+                <span class="status-dot online"></span>
+                <span class="status-text">متصل</span>
+            </div>
+            <button class="theme-toggle" id="themeToggle" title="تبديل النمط">🌙</button>
+        </div>
+    </header>
+
+    <!-- Messages Bar -->
+    <section class="messages-bar" id="messagesBar">
+        <div class="message active" id="currentMessage">
+            <span class="message-icon">📚</span>
+            <span class="message-text">مرحباً بكم في نظام الحضور الذكي</span>
+        </div>
+    </section>
+
+    <!-- Announcements Bar -->
+    <section class="announcements-bar" id="announcementsBar">
+        <div class="announcement" id="currentAnnouncement">
+            <div class="announcement-image-placeholder" style="width: 60px; height: 60px; background: var(--primary-light); border-radius: 0.5rem; display: flex; align-items: center; justify-content: center; font-size: 1.5rem;">📢</div>
+            <div class="announcement-content">
+                <h3 class="announcement-title">أهلاً وسهلاً</h3>
+                <a href="#" class="announcement-link">اقرأ المزيد</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Main Content -->
+    <main class="main-content student-main">
+        <!-- Input Section -->
+        <section class="input-section">
+            <div class="card input-card">
+                <h2>تسجيل الحضور</h2>
+                <div class="input-group">
+                    <input type="text" id="studentId" placeholder="أدخل رقم الطالب" class="student-input" autofocus>
+                    <button class="btn btn-primary" id="submitBtn">تسجيل</button>
+                </div>
+                <div class="scanner-actions">
+                    <button class="btn btn-secondary" id="scannerBtn">📷 فتح الماسح الضوئي</button>
+                    <button class="btn btn-secondary" id="testBtn">🔍 اختبار النظام</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Student Info Card -->
+        <section class="student-info-section" id="studentInfoSection" style="display: none;">
+            <div class="card student-card">
+                <div class="student-avatar">👨‍🎓</div>
+                <div class="student-details">
+                    <h3 id="studentName">اسم الطالب</h3>
+                    <div class="student-meta">
+                        <span id="studentGrade">الصف</span> | 
+                        <span id="studentClass">الفصل</span>
+                    </div>
+                </div>
+                <div class="attendance-status" id="attendanceStatus">
+                    <div class="status-badge present">حاضر</div>
+                    <div class="status-details">
+                        <div class="status-item">
+                            <span class="label">وقت الحضور:</span>
+                            <span id="attendanceTime">--:--</span>
+                        </div>
+                        <div class="status-item">
+                            <span class="label">دقائق التأخر اليوم:</span>
+                            <span id="todayLateMinutes">0</span>
+                        </div>
+                        <div class="status-item">
+                            <span class="label">أيام التأخر:</span>
+                            <span id="totalLateDays">0</span>
+                        </div>
+                        <div class="status-item">
+                            <span class="label">إجمالي دقائق التأخر:</span>
+                            <span id="totalLateMinutes">0</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Scanner Modal -->
+        <div class="modal" id="scannerModal">
+            <div class="modal-content scanner-modal">
+                <div class="modal-header">
+                    <h3>الماسح الضوئي</h3>
+                    <button class="modal-close" id="closeScannerBtn">&times;</button>
+                </div>
+                <div class="modal-body scanner-body">
+                    <div class="scanner-container">
+                        <video id="scannerVideo" autoplay playsinline muted></video>
+                        <canvas id="scannerCanvas" style="display: none;"></canvas>
+                        <div class="scanner-overlay">
+                            <div class="scan-frame"></div>
+                            <div class="scan-instructions">
+                                وجه الكاميرا نحو رمز QR أو الباركود
+                            </div>
+                        </div>
+                    </div>
+                    <div class="scanner-result" id="scannerResult"></div>
+                    <div class="scanner-actions">
+                        <button class="btn btn-secondary" id="manualInputBtn">إدخال يدوي</button>
+                        <button class="btn btn-secondary" id="switchCameraBtn" style="display: none;">تبديل الكاميرا</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Navigation Buttons -->
+    <div class="nav-buttons">
+        <a href="index.html" class="btn btn-secondary">👨‍💼 واجهة المشرف</a>
+        <button class="btn btn-primary" id="newStudentBtn">طالب جديد</button>
+    </div>
+
+    <!-- Scripts -->
+    <script src="assets/js/db.js"></script>
+    <script src="assets/js/ui.js"></script>
+    <script src="assets/js/sounds.js"></script>
+    <script src="assets/js/scanner.js"></script>
+    <script src="assets/js/barcode-generator.js"></script>
+    <script src="assets/js/student.js"></script>
+    
+    <!-- Service Worker Registration -->
+    <script>
+        // Initialize theme system immediately
+        (function() {
+            const savedTheme = localStorage.getItem('hader-theme') || 'light';
+            document.body.className = `theme-${savedTheme}`;
+            
+            // Update theme toggle icon
+            const themeToggle = document.getElementById('themeToggle');
+            if (themeToggle) {
+                themeToggle.textContent = savedTheme === 'light' ? '🌙' : '☀️';
+                themeToggle.title = savedTheme === 'light' ? 'تبديل إلى النمط الداكن' : 'تبديل إلى النمط الفاتح';
+            }
+        })();
+        
+        // Initialize student interface when DOM is ready
+        document.addEventListener('DOMContentLoaded', async () => {
+            try {
+                // Initialize all systems in proper order
+                await window.db.init();
+                await window.ui.init();
+                
+                // Initialize sounds manager if available
+                if (window.soundsManager) {
+                    await window.soundsManager.init();
+                }
+                
+                // Initialize scanner if available
+                if (window.scanner) {
+                    await window.scanner.init();
+                }
+                
+                // Initialize student interface
+                window.studentInterface = new StudentInterface();
+                await window.studentInterface.init();
+                
+                console.log('Student interface fully initialized');
+            } catch (error) {
+                console.error('Failed to initialize student interface:', error);
+                // Show user-friendly error message
+                if (window.ui && window.ui.showToast) {
+                    window.ui.showToast('حدث خطأ في تحميل النظام. يرجى إعادة تحميل الصفحة.', 'error');
+                } else {
+                    alert('حدث خطأ في تحميل النظام. يرجى إعادة تحميل الصفحة.');
+                }
+            }
+        });
+        
+        // Service Worker Registration
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', async () => {
+                try {
+                    const registration = await navigator.serviceWorker.register('/service-worker.js');
+                    console.log('SW registered: ', registration);
+                } catch (registrationError) {
+                    console.log('SW registration failed: ', registrationError);
+                }
+            });
+        }
+    </script>
+</body>
+</html>

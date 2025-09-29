@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>لوحة الإدارة - نظام HeHo</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="assets/css/theme-modern.css">
+    <link rel="stylesheet" href="assets/css/components.css">
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#0f172a">
+</head>
+<body class="theme-light">
+    <!-- Header -->
+    <header class="header">
+        <div class="header-content">
+            <div class="header-section">
+                <div class="user-menu">
+                    <button class="user-button">
+                        <div class="avatar avatar-sm">
+                            <img src="assets/images/placeholder-user.svg" alt="المستخدم">
+                        </div>
+                        <span class="hidden-mobile">مدير النظام</span>
+                    </button>
+                </div>
+            </div>
+            <div class="header-search">
+                <div class="search-box">
+                    <svg class="search-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                    </svg>
+                    <input type="text" placeholder="بحث شامل..." class="search-input">
+                </div>
+            </div>
+            <div class="header-section">
+                <div class="header-actions">
+                    <button class="theme-toggle" id="themeToggle" title="تبديل الثيم">
+                        <svg class="icon-sun" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
+                        </svg>
+                        <svg class="icon-moon hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+                        </svg>
+                    </button>
+                    <div class="connection-status">
+                        <div class="status-indicator status-online"></div>
+                        <span class="status-text hidden-mobile">متصل</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Sidebar -->
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <div class="logo">
+                <div class="logo-icon">H</div>
+                <span class="logo-text">HeHo Admin</span>
+            </div>
+        </div>
+        <nav class="sidebar-nav">
+            <ul class="nav-list">
+                <li class="nav-item">
+                    <a href="index-modern.html" class="nav-link">
+                        <svg class="nav-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2H5a2 2 0 00-2-2V7a2 2 0 012-2h14a2 2 0 012 2v2" />
+                        </svg>
+                        <span class="nav-text">لوحة المشرف</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="student-modern.html" class="nav-link">
+                        <svg class="nav-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                        </svg>
+                        <span class="nav-text">واجهة الطلاب</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+        <div class="sidebar-footer">
+            <a href="#" class="nav-link active">
+                <svg class="nav-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                </svg>
+                <span class="nav-text">إدارة النظام</span>
+            </a>
+        </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="admin-tabs">
+            <nav class="admin-tab-nav">
+                <button class="admin-tab-btn active" data-tab="students">الطلاب</button>
+                <button class="admin-tab-btn" data-tab="classes">الفصول</button>
+                <button class="admin-tab-btn" data-tab="attendance">الحضور</button>
+                <button class="admin-tab-btn" data-tab="settings">الإعدادات</button>
+                <button class="admin-tab-btn" data-tab="reports">التقارير</button>
+                <button class="admin-tab-btn" data-tab="backup">النسخ الاحتياطي</button>
+            </nav>
+
+            <!-- Students Tab -->
+            <div class="admin-tab-content active" id="students">
+                <div class="card">
+                    <div class="card-header">
+                        <h2 class="card-title">إدارة الطلاب</h2>
+                        <div class="card-actions">
+                            <button class="btn btn-primary" id="addStudentBtn">
+                                <svg class="icon-sm" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+                                </svg>
+                                إضافة طالب
+                            </button>
+                            <button class="btn btn-secondary" id="importCSVBtn">
+                                <svg class="icon-sm" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M9 19l3 3m0 0l3-3m-3 3V10" />
+                                </svg>
+                                استيراد CSV
+                            </button>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <!-- Search and Filters -->
+                        <div class="filter-row">
+                            <div class="form-group">
+                                <input type="text" id="studentsSearch" class="form-input" placeholder="بحث بالاسم أو الرقم...">
+                            </div>
+                            <div class="form-group">
+                                <select id="gradeFilter" class="form-select">
+                                    <option value="">جميع الصفوف</option>
+                                    <option value="الأول الثانوي">الأول الثانوي</option>
+                                    <option value="الثاني الثانوي">الثاني الثانوي</option>
+                                    <option value="الثالث الثانوي">الثالث الثانوي</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <select id="classFilter" class="form-select">
+                                    <option value="">جميع الفصول</option>
+                                    <option value="أ">أ</option>
+                                    <option value="ب">ب</option>
+                                    <option value="ج">ج</option>
+                                    <option value="د">د</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="table-container">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>الرقم</th>
+                                        <th>الاسم الكامل</th>
+                                        <th>الصف</th>
+                                        <th>الفصل</th>
+                                        <th>هاتف ولي الأمر</th>
+                                        <th>الإجراءات</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="studentsTableBody">
+                                    <!-- Dynamic content -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Settings Tab -->
+            <div class="admin-tab-content" id="settings">
+                <div class="card">
+                    <div class="card-header">
+                        <h2 class="card-title">إعدادات النظام</h2>
+                    </div>
+                    <div class="card-body">
+                        <div class="settings-grid">
+                            <div class="form-group">
+                                <label for="schoolName" class="form-label">اسم المدرسة</label>
+                                <input type="text" id="schoolName" class="form-input" value="مدرسة الأمل الثانوية">
+                            </div>
+                            <div class="form-group">
+                                <label for="principalName" class="form-label">اسم المدير</label>
+                                <input type="text" id="principalName" class="form-input" value="أحمد محمد">
+                            </div>
+                        </div>
+                        <div class="form-actions">
+                            <button class="btn btn-primary">حفظ الإعدادات</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Classes Tab -->
+            <div class="admin-tab-content" id="classes">
+                <div class="card">
+                    <div class="card-header">
+                        <h2 class="card-title">إدارة الفصول</h2>
+                        <div class="card-actions">
+                            <button class="btn btn-primary" id="addClassBtn">
+                                <svg class="icon-sm" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+                                </svg>
+                                إضافة فصل
+                            </button>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="classes-grid" id="classesGrid">
+                            <!-- Dynamic content -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="admin-tab-content" id="attendance">
+                <div class="card">
+                    <div class="card-header">
+                        <h2 class="card-title">إدارة الحضور</h2>
+                        <div class="card-actions">
+                            <input type="date" id="attendanceDate" class="form-input" style="width: auto;">
+                            <button class="btn btn-secondary" id="exportAttendanceBtn">تصدير</button>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="attendance-summary" id="attendanceSummary">
+                            <!-- Dynamic content -->
+                        </div>
+                        <div class="table-container">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>الرقم</th>
+                                        <th>الاسم</th>
+                                        <th>الفصل</th>
+                                        <th>وقت الحضور</th>
+                                        <th>الحالة</th>
+                                        <th>دقائق التأخر</th>
+                                        <th>الإجراءات</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="attendanceTableBody">
+                                    <!-- Dynamic content -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="admin-tab-content" id="reports">
+                <div class="card card-placeholder">
+                    <div class="card-body">
+                        <div class="placeholder-pattern"></div>
+                        <h3 class="placeholder-title">التقارير</h3>
+                        <p class="text-muted">سيتم إضافة محتوى التقارير هنا</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="admin-tab-content" id="backup">
+                <div class="card card-placeholder">
+                    <div class="card-body">
+                        <div class="placeholder-pattern"></div>
+                        <h3 class="placeholder-title">النسخ الاحتياطي</h3>
+                        <p class="text-muted">سيتم إضافة محتوى النسخ الاحتياطي هنا</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Student Modal -->
+    <div class="modal-overlay" id="studentModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h3 class="modal-title" id="studentModalTitle">إضافة طالب جديد</h3>
+                <button class="modal-close">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="studentForm">
+                    <div class="form-group">
+                        <label for="studentId" class="form-label">رقم الطالب</label>
+                        <input type="text" id="studentId" class="form-input" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="studentName" class="form-label">الاسم الكامل</label>
+                        <input type="text" id="studentName" class="form-input" required>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="studentGrade" class="form-label">الصف</label>
+                            <select id="studentGrade" class="form-select" required>
+                                <option value="">اختر الصف</option>
+                                <option value="الأول الثانوي">الأول الثانوي</option>
+                                <option value="الثاني الثانوي">الثاني الثانوي</option>
+                                <option value="الثالث الثانوي">الثالث الثانوي</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="studentClass" class="form-label">الفصل</label>
+                            <select id="studentClass" class="form-select" required>
+                                <option value="">اختر الفصل</option>
+                                <option value="أ">أ</option>
+                                <option value="ب">ب</option>
+                                <option value="ج">ج</option>
+                                <option value="د">د</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="guardianPhone" class="form-label">هاتف ولي الأمر</label>
+                        <input type="tel" id="guardianPhone" class="form-input">
+                    </div>
+                    <div class="form-group">
+                        <label for="studentEmail" class="form-label">البريد الإلكتروني (اختياري)</label>
+                        <input type="email" id="studentEmail" class="form-input">
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" id="cancelStudentBtn">إلغاء</button>
+                <button class="btn btn-primary" id="saveStudentBtn">حفظ</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- CSV Import Modal -->
+    <div class="modal-overlay" id="csvModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h3 class="modal-title">استيراد بيانات الطلاب من CSV</h3>
+                <button class="modal-close">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="upload-area" id="csvUploadArea">
+                    <svg class="upload-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M9 19l3 3m0 0l3-3m-3 3V10" />
+                    </svg>
+                    <p>اسحب وأفلت ملف CSV هنا أو اضغط للاختيار</p>
+                    <input type="file" id="csvFileInput" accept=".csv" style="display: none;">
+                    <button class="btn btn-secondary" onclick="document.getElementById('csvFileInput').click()">اختيار ملف</button>
+                </div>
+                <div class="csv-format-help">
+                    <h4>تنسيق الملف المطلوب:</h4>
+                    <p>يجب أن يحتوي ملف CSV على الأعمدة التالية:</p>
+                    <code>id,name,grade,className,guardianPhone,email</code>
+                    <p>مثال:</p>
+                    <code>12345,أحمد محمد,الثالث الثانوي,أ,0123456789,ahmed@example.com</code>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" onclick="document.getElementById('csvModal').classList.remove('active')">إلغاء</button>
+                <button class="btn btn-primary" id="importCSVConfirmBtn" disabled>استيراد</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="assets/js/theme-modern.js"></script>
+    <script src="assets/js/db.js"></script>
+    <script src="assets/js/admin.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', async function() {
+            window.themeController = new ModernThemeController();
+            
+            // Initialize database
+            if (window.db) {
+                await window.db.init();
+                await window.db.initializeDefaultData();
+            }
+            
+            // Initialize admin interface
+            window.adminInterface = new AdminInterface();
+            await window.adminInterface.init();
+            
+            // Admin tab functionality
+            const tabBtns = document.querySelectorAll('.admin-tab-btn');
+            const tabContents = document.querySelectorAll('.admin-tab-content');
+            
+            tabBtns.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const targetTab = this.dataset.tab;
+                    
+                    tabBtns.forEach(b => b.classList.remove('active'));
+                    tabContents.forEach(c => c.classList.remove('active'));
+                    
+                    this.classList.add('active');
+                    document.getElementById(targetTab).classList.add('active');
+                    
+                    // Load tab content
+                    window.adminInterface.loadTabContent(targetTab);
+                });
+            });
+            
+            // CSV Import functionality
+            const csvFileInput = document.getElementById('csvFileInput');
+            const importCSVBtn = document.getElementById('importCSVBtn');
+            const importCSVConfirmBtn = document.getElementById('importCSVConfirmBtn');
+            
+            if (importCSVBtn) {
+                importCSVBtn.addEventListener('click', () => {
+                    document.getElementById('csvModal').classList.add('active');
+                });
+            }
+            
+            if (csvFileInput) {
+                csvFileInput.addEventListener('change', function(e) {
+                    const file = e.target.files[0];
+                    if (file && file.type === 'text/csv') {
+                        importCSVConfirmBtn.disabled = false;
+                        importCSVConfirmBtn.onclick = () => window.adminInterface.importCSV(file);
+                    }
+                });
+            }
+        });
+    </script>
+</body>
+</html>

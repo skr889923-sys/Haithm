@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>اختبار الماسح الضوئي - حاضر</title>
+    <link rel="stylesheet" href="assets/css/main.css">
+    <style>
+        .test-scanner-panel {
+            margin: 20px;
+            padding: 20px;
+            background: var(--bg-primary);
+            border-radius: 10px;
+            border: 1px solid var(--border-color);
+        }
+        .barcode-samples {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+        .barcode-sample {
+            text-align: center;
+            padding: 15px;
+            background: var(--bg-secondary);
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+        }
+        .barcode-sample h4 {
+            margin-bottom: 10px;
+            color: var(--text-primary);
+        }
+        .barcode-display {
+            margin: 10px 0;
+            min-height: 100px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .test-button {
+            margin: 5px;
+            min-width: 120px;
+        }
+        .camera-info {
+            background: var(--bg-secondary);
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+        }
+        .capability-check {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin: 5px 0;
+        }
+        .status-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            display: inline-block;
+        }
+        .status-dot.green { background: var(--success-color); }
+        .status-dot.red { background: var(--danger-color); }
+        .status-dot.yellow { background: var(--warning-color); }
+    </style>
+</head>
+<body class="theme-light">
+    <header class="top-bar">
+        <div class="school-info">
+            <h1>اختبار الماسح الضوئي</h1>
+            <span>Module M3 Testing</span>
+        </div>
+    </header>
+
+    <main class="main-content">
+        <!-- Camera Capabilities Check -->
+        <div class="test-scanner-panel">
+            <h2>فحص إمكانيات الكاميرا</h2>
+            <div class="camera-info" id="cameraInfo">
+                <div class="capability-check">
+                    <span class="status-dot" id="mediaDevicesStatus"></span>
+                    <span>دعم MediaDevices API</span>
+                </div>
+                <div class="capability-check">
+                    <span class="status-dot" id="getUserMediaStatus"></span>
+                    <span>دعم getUserMedia</span>
+                </div>
+                <div class="capability-check">
+                    <span class="status-dot" id="cameraCountStatus"></span>
+                    <span id="cameraCountText">عدد الكاميرات المتاحة</span>
+                </div>
+            </div>
+            <div class="actions">
+                <button class="btn btn-primary test-button" id="checkCamerasBtn">فحص الكاميرات</button>
+                <button class="btn btn-secondary test-button" id="testScannerBtn">اختبار الماسح</button>
+            </div>
+        </div>
+
+        <!-- Sample Barcodes for Testing -->
+        <div class="test-scanner-panel">
+            <h2>عينات الباركود للاختبار</h2>
+            <p>استخدم الماسح الضوئي لقراءة هذه الأكواد:</p>
+            
+            <div class="barcode-samples">
+                <div class="barcode-sample">
+                    <h4>QR Code - طالب 1001</h4>
+                    <div class="barcode-display" id="qrSample1"></div>
+                    <button class="btn btn-secondary test-button" onclick="generateSampleQR('1001', 'qrSample1')">إنشاء QR</button>
+                </div>
+                
+                <div class="barcode-sample">
+                    <h4>Code128 - طالب 1002</h4>
+                    <div class="barcode-display" id="barcodeSample1"></div>
+                    <button class="btn btn-secondary test-button" onclick="generateSampleBarcode('1002', 'barcodeSample1')">إنشاء باركود</button>
+                </div>
+                
+                <div class="barcode-sample">
+                    <h4>QR Code - طالب 2001</h4>
+                    <div class="barcode-display" id="qrSample2"></div>
+                    <button class="btn btn-secondary test-button" onclick="generateSampleQR('2001', 'qrSample2')">إنشاء QR</button>
+                </div>
+                
+                <div class="barcode-sample">
+                    <h4>Code128 - طالب 2002</h4>
+                    <div class="barcode-display" id="barcodeSample2"></div>
+                    <button class="btn btn-secondary test-button" onclick="generateSampleBarcode('2002', 'barcodeSample2')">إنشاء باركود</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Scanner Controls -->
+        <div class="test-scanner-panel">
+            <h2>تحكم الماسح الضوئي</h2>
+            <div class="actions">
+                <button class="btn btn-primary test-button" id="startScanBtn">بدء المسح</button>
+                <button class="btn btn-secondary test-button" id="stopScanBtn">إيقاف المسح</button>
+                <button class="btn btn-secondary test-button" id="manualTestBtn">إدخال يدوي</button>
+            </div>
+            
+            <div class="scanner-result" id="scanTestResult">
+                <p>النتائج ستظهر هنا...</p>
+            </div>
+        </div>
+    </main>
+
+    <!-- Scanner Modal (reuse from student.html) -->
+    <div class="modal" id="scannerModal">
+        <div class="modal-content scanner-modal">
+            <div class="modal-header">
+                <h3>الماسح الضوئي</h3>
+                <button class="modal-close" id="closeScannerBtn">&times;</button>
+            </div>
+            <div class="modal-body scanner-body">
+                <div class="scanner-container">
+                    <video id="scannerVideo" autoplay playsinline muted></video>
+                    <canvas id="scannerCanvas" style="display: none;"></canvas>
+                    <div class="scanner-overlay">
+                        <div class="scan-frame"></div>
+                        <div class="scan-instructions">
+                            وجه الكاميرا نحو رمز QR أو الباركود
+                        </div>
+                    </div>
+                </div>
+                <div class="scanner-result" id="scannerResult"></div>
+                <div class="scanner-actions">
+                    <button class="btn btn-secondary" id="manualInputBtn">إدخال يدوي</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="assets/js/db.js"></script>
+    <script src="assets/js/ui.js"></script>
+    <script src="assets/js/barcode-generator.js"></script>
+    <script src="assets/js/scanner.js"></script>
+    
+    <script>
+        class ScannerTester {
+            constructor() {
+                this.cameras = [];
+            }
+
+            async init() {
+                await this.waitForDependencies();
+                this.setupEventListeners();
+                this.checkCapabilities();
+                this.generateSampleBarcodes();
+                console.log('Scanner tester initialized');
+            }
+
+            async waitForDependencies() {
+                return new Promise((resolve) => {
+                    const checkDependencies = () => {
+                        if (window.barcodeGenerator && window.scanner && window.ui) {
+                            resolve();
+                        } else {
+                            setTimeout(checkDependencies, 100);
+                        }
+                    };
+                    checkDependencies();
+                });
+            }
+
+            setupEventListeners() {
+                document.getElementById('checkCamerasBtn')?.addEventListener('click', () => this.checkCameras());
+                document.getElementById('testScannerBtn')?.addEventListener('click', () => this.testScanner());
+                document.getElementById('startScanBtn')?.addEventListener('click', () => this.startScanning());
+                document.getElementById('stopScanBtn')?.addEventListener('click', () => this.stopScanning());
+                document.getElementById('manualTestBtn')?.addEventListener('click', () => this.testManualInput());
+
+                // Listen for scan results
+                window.addEventListener('hader:scanner:result', (event) => {
+                    this.handleScanResult(event.detail);
+                });
+            }
+
+            checkCapabilities() {
+                const mediaDevicesStatus = document.getElementById('mediaDevicesStatus');
+                const getUserMediaStatus = document.getElementById('getUserMediaStatus');
+                
+                // Check MediaDevices support
+                if (navigator.mediaDevices) {
+                    mediaDevicesStatus.className = 'status-dot green';
+                } else {
+                    mediaDevicesStatus.className = 'status-dot red';
+                }
+
+                // Check getUserMedia support
+                if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+                    getUserMediaStatus.className = 'status-dot green';
+                } else {
+                    getUserMediaStatus.className = 'status-dot red';
+                }
+            }
+
+            async checkCameras() {
+                try {
+                    this.cameras = await Scanner.getAvailableCameras();
+                    const cameraCountStatus = document.getElementById('cameraCountStatus');
+                    const cameraCountText = document.getElementById('cameraCountText');
+                    
+                    if (this.cameras.length > 0) {
+                        cameraCountStatus.className = 'status-dot green';
+                        cameraCountText.textContent = `عدد الكاميرات المتاحة: ${this.cameras.length}`;
+                        
+                        this.cameras.forEach((camera, index) => {
+                            console.log(`Camera ${index + 1}:`, camera.label || `Camera ${index + 1}`);
+                        });
+                    } else {
+                        cameraCountStatus.className = 'status-dot red';
+                        cameraCountText.textContent = 'لا توجد كاميرات متاحة';
+                    }
+                } catch (error) {
+                    console.error('Failed to check cameras:', error);
+                    const cameraCountStatus = document.getElementById('cameraCountStatus');
+                    cameraCountStatus.className = 'status-dot yellow';
+                }
+            }
+
+            generateSampleBarcodes() {
+                if (window.barcodeGenerator) {
+                    // Generate sample QR codes
+                    generateSampleQR('1001', 'qrSample1');
+                    generateSampleQR('2001', 'qrSample2');
+                    
+                    // Generate sample barcodes
+                    generateSampleBarcode('1002', 'barcodeSample1');
+                    generateSampleBarcode('2002', 'barcodeSample2');
+                }
+            }
+
+            testScanner() {
+                if (Scanner.isSupported()) {
+                    window.ui?.showToast('الماسح الضوئي مدعوم', 'success');
+                    this.updateResult('Scanner is supported and ready to use');
+                } else {
+                    window.ui?.showToast('الماسح الضوئي غير مدعوم', 'error');
+                    this.updateResult('Scanner is not supported on this device');
+                }
+            }
+
+            startScanning() {
+                if (window.scanner) {
+                    window.scanner.startScanner();
+                    this.updateResult('Scanner started - point camera at barcode');
+                } else {
+                    window.ui?.showToast('الماسح غير متوفر', 'error');
+                }
+            }
+
+            stopScanning() {
+                if (window.scanner) {
+                    window.scanner.stopScanner();
+                    this.updateResult('Scanner stopped');
+                }
+            }
+
+            testManualInput() {
+                const testId = prompt('أدخل رقم طالب للاختبار:', '1001');
+                if (testId) {
+                    this.handleScanResult({ code: testId, type: 'MANUAL' });
+                }
+            }
+
+            handleScanResult(result) {
+                const { code, type } = result;
+                console.log('Scan result received:', result);
+                
+                this.updateResult(`
+                    <div class="scan-success">
+                        <strong>تم اكتشاف الكود بنجاح!</strong><br>
+                        النوع: ${type}<br>
+                        الكود: ${code}<br>
+                        الوقت: ${new Date().toLocaleTimeString('ar-SA')}
+                    </div>
+                `);
+                
+                window.ui?.showToast(`تم مسح الكود: ${code}`, 'success');
+            }
+
+            updateResult(message) {
+                const resultEl = document.getElementById('scanTestResult');
+                if (resultEl) {
+                    resultEl.innerHTML = message;
+                }
+            }
+        }
+
+        // Global functions for barcode generation
+        function generateSampleQR(studentId, containerId) {
+            if (window.barcodeGenerator) {
+                const qrCode = window.barcodeGenerator.generateQRCode(`HADER:${studentId}`, 150);
+                const container = document.getElementById(containerId);
+                if (container) {
+                    container.innerHTML = qrCode;
+                }
+            }
+        }
+
+        function generateSampleBarcode(studentId, containerId) {
+            if (window.barcodeGenerator) {
+                const barcode = window.barcodeGenerator.generateCode128(studentId.padStart(8, '0'), 200, 60);
+                const container = document.getElementById(containerId);
+                if (container) {
+                    container.innerHTML = barcode;
+                }
+            }
+        }
+
+        // Initialize scanner tester when ready
+        document.addEventListener('DOMContentLoaded', async () => {
+            const tester = new ScannerTester();
+            await tester.init();
+            window.scannerTester = tester;
+        });
+    </script>
+</body>
+</html>
